@@ -1,4 +1,32 @@
-/* Lisa need stiilid olemasolevate juurde */
+/* Fluent 2 muutujad ja üldised stiilid */
+:root {
+    --brand-color: rgb(0, 120, 212);
+    --brand-color-hover: rgb(0, 102, 190);
+    --border-radius: 4px;
+    --animation-duration: 0.2s;
+    --shadow-small: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-medium: 0 4px 8px rgba(0,0,0,0.12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 250px 1fr 300px;
+    height: 100vh;
+}
+
+/* Sidebar stiilid */
+.sidebar {
+    background: #f5f5f5;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
 
 .sidebar-tabs {
     display: flex;
@@ -29,6 +57,30 @@
     display: block;
 }
 
+/* Komponendid */
+.components {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.component {
+    padding: 12px 16px;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: var(--border-radius);
+    cursor: move;
+    transition: all var(--animation-duration) ease-in-out;
+    box-shadow: var(--shadow-small);
+}
+
+.component:hover {
+    background: #f5f5f5;
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-1px);
+}
+
+/* Mallid */
 .templates {
     display: flex;
     flex-direction: column;
@@ -63,6 +115,148 @@
     width: 100%;
 }
 
+/* Preview ala */
+.main-content {
+    padding: 20px;
+    background: #fff;
+}
+
+.preview-area {
+    min-height: calc(100vh - 100px);
+    border: 2px dashed #ddd;
+    padding: 20px;
+    background: white;
+}
+
+.preview-component {
+    position: relative;
+    padding: 16px;
+    margin: 8px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: var(--border-radius);
+    min-height: 30px;
+    background: white;
+    box-shadow: var(--shadow-small);
+    transition: all var(--animation-duration) ease-in-out;
+}
+
+.preview-component:hover {
+    box-shadow: var(--shadow-medium);
+}
+
+.preview-component.selected {
+    border: 2px solid var(--brand-color);
+}
+
+/* Toolbar */
+.toolbar {
+    padding: 12px;
+    background: white;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.toolbar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Fluent komponendid */
+.button {
+    padding: 8px 16px;
+    background: var(--brand-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--animation-duration) ease-in-out;
+    font-weight: 500;
+}
+
+.button:hover {
+    background: var(--brand-color-hover);
+    transform: translateY(-1px);
+}
+
+.progressbar {
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 120, 212, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progressbar-fill {
+    height: 100%;
+    background: var(--brand-color);
+    transition: width var(--animation-duration) ease-in-out;
+}
+
+/* Kustutamise nupp */
+.delete-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255, 0, 0, 0.1);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all var(--animation-duration) ease-in-out;
+}
+
+.preview-component:hover .delete-button {
+    opacity: 1;
+}
+
+.delete-button:hover {
+    background: rgba(255, 0, 0, 0.2);
+}
+
+/* Omaduste paneel */
+.properties-panel {
+    background: #f5f5f5;
+    padding: 24px;
+    border-left: 1px solid rgba(0,0,0,0.1);
+}
+
+.property {
+    margin-bottom: 16px;
+}
+
+.property label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.property input,
+.property select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: var(--border-radius);
+    transition: all var(--animation-duration) ease-in-out;
+}
+
+.property input:focus,
+.property select:focus {
+    outline: none;
+    border-color: var(--brand-color);
+    box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.2);
+}
+
+/* Eviti tag */
 .eviti-tag {
     position: fixed;
     bottom: 16px;
@@ -73,4 +267,11 @@
     font-size: 12px;
     color: var(--brand-color);
     pointer-events: none;
+}
+
+/* Animatsioonid */
+@keyframes loading {
+    0% { width: 0%; }
+    50% { width: 100%; }
+    100% { width: 0%; }
 } 
