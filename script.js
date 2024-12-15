@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     components.forEach(component => {
         component.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', component.dataset.type);
+            e.dataTransfer.effectAllowed = 'copy';
             draggedComponent = component;
             component.classList.add('dragging');
         });
@@ -19,21 +20,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    previewArea.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        previewArea.classList.add('drag-over');
+    });
+
+    previewArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        previewArea.classList.remove('drag-over');
+    });
+
     previewArea.addEventListener('dragover', (e) => {
         e.preventDefault();
         e.dataTransfer.dropEffect = 'copy';
-        const afterElement = getDragAfterElement(previewArea, e.clientY);
-        if (afterElement) {
-            previewArea.insertBefore(draggedComponent, afterElement);
-        } else {
-            previewArea.appendChild(draggedComponent);
-        }
     });
 
     previewArea.addEventListener('drop', (e) => {
         e.preventDefault();
+        previewArea.classList.remove('drag-over');
         const type = e.dataTransfer.getData('text/plain');
-        addComponent(type, e.clientY);
+        if (type) {
+            addComponent(type, e.clientY);
+        }
     });
 
     // Abifunktsioon lohistamise järjekorra määramiseks
