@@ -11,16 +11,44 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <h2>Komponendid</h2>
-            <div class="components">
-                <div class="component" draggable="true" data-type="heading">Pealkiri</div>
-                <div class="component" draggable="true" data-type="text">Tekst</div>
-                <div class="component" draggable="true" data-type="button">Nupp</div>
-                <div class="component" draggable="true" data-type="image">Pilt</div>
-                <div class="component" draggable="true" data-type="container">Konteiner</div>
-                <div class="component" draggable="true" data-type="card">Kaart</div>
-                <div class="component" draggable="true" data-type="progressbar">Edenemisriba</div>
-                <div class="component" draggable="true" data-type="divider">Eraldaja</div>
+            <div class="sidebar-tabs">
+                <button class="tab-button active" data-tab="components">Komponendid</button>
+                <button class="tab-button" data-tab="templates">Mallid</button>
+            </div>
+            
+            <div class="tab-content active" id="components-tab">
+                <h2>Komponendid</h2>
+                <div class="components">
+                    <div class="component" draggable="true" data-type="heading">Pealkiri</div>
+                    <div class="component" draggable="true" data-type="text">Tekst</div>
+                    <div class="component" draggable="true" data-type="button">Nupp</div>
+                    <div class="component" draggable="true" data-type="image">Pilt</div>
+                    <div class="component" draggable="true" data-type="container">Konteiner</div>
+                    <div class="component" draggable="true" data-type="card">Kaart</div>
+                    <div class="component" draggable="true" data-type="progressbar">Edenemisriba</div>
+                    <div class="component" draggable="true" data-type="divider">Eraldaja</div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="templates-tab">
+                <h2>Mallid</h2>
+                <div class="templates">
+                    <div class="template-card" data-template="landing1">
+                        <img src="https://via.placeholder.com/150x100" alt="Landing Page 1">
+                        <h3>Äri Landing Page</h3>
+                        <button class="button use-template">Kasuta</button>
+                    </div>
+                    <div class="template-card" data-template="landing2">
+                        <img src="https://via.placeholder.com/150x100" alt="Landing Page 2">
+                        <h3>Startup Landing Page</h3>
+                        <button class="button use-template">Kasuta</button>
+                    </div>
+                    <div class="template-card" data-template="portfolio">
+                        <img src="https://via.placeholder.com/150x100" alt="Portfolio">
+                        <h3>Portfolio Leht</h3>
+                        <button class="button use-template">Kasuta</button>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -61,6 +89,8 @@
             </div>
         </div>
     </div>
+
+    <div class="eviti-tag">Made with Eviti BETA</div>
     <script src="script.js"></script>
 </body>
 </html> 

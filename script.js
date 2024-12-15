@@ -279,4 +279,130 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Lisa see CSS animatsioon styles.css faili
+
+    // Lisa see funktsioon DOMContentLoaded sündmuse käsitleja sisse
+    function deleteComponent(component) {
+        if (component === selectedComponent) {
+            selectedComponent = null;
+            propertiesPanel.innerHTML = '';
+        }
+        component.remove();
+    }
+
+    // Lisa need mallid DOMContentLoaded sündmuse käsitleja sisse
+
+    const templates = {
+        landing1: [
+            {
+                type: 'heading',
+                text: 'Tere tulemast meie ettevõttesse',
+                styles: {
+                    fontSize: '48px',
+                    color: '#1a1a1a',
+                    textAlign: 'center'
+                }
+            },
+            {
+                type: 'text',
+                text: 'Me pakume parimaid lahendusi teie äri jaoks',
+                styles: {
+                    fontSize: '24px',
+                    color: '#666',
+                    textAlign: 'center'
+                }
+            },
+            {
+                type: 'button',
+                text: 'Võta ühendust',
+                link: '#contact',
+                styles: {
+                    fontSize: '18px'
+                }
+            }
+        ],
+        landing2: [
+            {
+                type: 'card',
+                content: `
+                    <h3>Innovatiivne Lahendus</h3>
+                    <p>Meie startup muudab maailma</p>
+                    <button class="button">Liitu meiega</button>
+                `
+            },
+            {
+                type: 'progressbar',
+                progress: 75,
+                type: 'progress'
+            }
+        ],
+        portfolio: [
+            {
+                type: 'heading',
+                text: 'Minu Tööd',
+                styles: {
+                    fontSize: '36px',
+                    color: '#1a1a1a'
+                }
+            },
+            {
+                type: 'image',
+                src: 'https://via.placeholder.com/800x400',
+                alt: 'Portfolio pilt'
+            }
+        ]
+    };
+
+    // Lisa mallide funktsionaalsus
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            // Eemalda active klass kõigilt nuppudelt ja tab-content elementidelt
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            // Lisa active klass klikitud nupule ja vastavale tab-content elemendile
+            button.classList.add('active');
+            document.getElementById(`${button.dataset.tab}-tab`).classList.add('active');
+        });
+    });
+
+    // Lisa malli kasutamise funktsionaalsus
+    document.querySelectorAll('.use-template').forEach(button => {
+        button.addEventListener('click', () => {
+            const templateName = button.parentElement.dataset.template;
+            const template = templates[templateName];
+            
+            // Tühjenda preview ala
+            previewArea.innerHTML = '';
+            
+            // Lisa malli komponendid
+            template.forEach(item => {
+                const component = createComponent(item.type);
+                
+                // Lisa stiilid ja sisu
+                if (item.styles) {
+                    Object.assign(component.style, item.styles);
+                }
+                if (item.text) {
+                    component.textContent = item.text;
+                }
+                if (item.content) {
+                    component.innerHTML = item.content;
+                }
+                if (item.src) {
+                    component.querySelector('img').src = item.src;
+                }
+                if (item.alt) {
+                    component.querySelector('img').alt = item.alt;
+                }
+                if (item.progress) {
+                    component.querySelector('.progressbar-fill').style.width = `${item.progress}%`;
+                }
+                if (item.type === 'progressbar' && item.type) {
+                    updateProgressType(item.type);
+                }
+                
+                previewArea.appendChild(component);
+            });
+        });
+    });
 }); 
