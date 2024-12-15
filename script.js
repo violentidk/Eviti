@@ -27,6 +27,15 @@ document.addEventListener('DOMContentLoaded', function() {
         component.className = `preview-component ${type}`;
         component.setAttribute('contenteditable', 'true');
 
+        // Lisa kustutamise nupp
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'delete-button';
+        deleteButton.innerHTML = '<i class="bi bi-trash"></i>';
+        deleteButton.onclick = (e) => {
+            e.stopPropagation();
+            component.remove();
+        };
+
         switch(type) {
             case 'heading':
                 component.textContent = 'Uus pealkiri';
@@ -36,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
             case 'button':
                 component.textContent = 'Nupp';
+                component.setAttribute('onclick', 'alert("Nupp töötab!")');
                 break;
             case 'image':
                 const img = document.createElement('img');
@@ -46,7 +56,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 component.className += ' container-component';
                 component.textContent = 'Konteiner';
                 break;
+            case 'card':
+                component.className += ' card';
+                component.innerHTML = `
+                    <h3>Kaardi pealkiri</h3>
+                    <p>Kaardi sisu</p>
+                    <button class="button">Tegevus</button>
+                `;
+                break;
+            case 'progressbar':
+                component.className += ' progressbar';
+                const fill = document.createElement('div');
+                fill.className = 'progressbar-fill';
+                fill.style.width = '50%';
+                component.appendChild(fill);
+                break;
+            case 'divider':
+                component.className += ' divider';
+                component.setAttribute('contenteditable', 'false');
+                break;
         }
+
+        component.appendChild(deleteButton);
 
         // Leia õige asukoht komponendi lisamiseks
         const components = Array.from(previewArea.children);
@@ -84,6 +115,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Omaduste näitamine
     function showProperties(component) {
+        const type = component.className.split(' ')[1];
+        let additionalProperties = '';
+
+        switch(type) {
+            case 'progressbar':
+                additionalProperties = `
+                    <div class="property">
+                        <label>Edenemise %:</label>
+                        <input type="range" min="0" max="100" value="${parseInt(component.querySelector('.progressbar-fill').style.width)}"
+                            onchange="updateProgress(this.value)">
+                    </div>
+                `;
+                break;
+            case 'button':
+                additionalProperties = `
+                    <div class="property">
+                        <label>Onclick funktsioon:</label>
+                        <input type="text" value="${component.getAttribute('onclick') || ''}"
+                            onchange="updateOnClick(this.value)">
+                    </div>
+                `;
+                break;
+        }
+
         propertiesPanel.innerHTML = `
             <div class="property">
                 <label>Tekst:</label>
@@ -100,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <input type="color" value="${rgbToHex(getComputedStyle(component).color)}" 
                     onchange="updateColor(this.value)">
             </div>
+            ${additionalProperties}
         `;
     }
 
@@ -129,6 +185,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    window.updateProgress = function(value) {
+        if (selectedComponent) {
+            const fill = selectedComponent.querySelector('.progressbar-fill');
+            if (fill) {
+                fill.style.width = `${value}%`;
+            }
+        }
+    };
+
+    window.updateOnClick = function(value) {
+        if (selectedComponent) {
+            selectedComponent.setAttribute('onclick', value);
+        }
+    };
+
     // Kliki kuulaja tühistamaks valiku
     document.addEventListener('click', (e) => {
         if (e.target === previewArea) {
@@ -138,5 +209,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 propertiesPanel.innerHTML = '';
             }
         }
+    });
+
+    // Lisa taustavärvi ja suuruse muutmise funktsioonid
+    const bgColorPicker = document.getElementById('bgColorPicker');
+    const bgSizeSlider = document.getElementById('bgSizeSlider');
+    const bgSizeValue = document.getElementById('bgSizeValue');
+    const previewArea = document.getElementById('preview-area');
+
+    bgColorPicker.addEventListener('input', (e) => {
+        previewArea.style.backgroundColor = e.target.value;
+    });
+
+    bgSizeSlider.addEventListener('input', (e) => {
+        const value = e.target.value;
+        previewArea.style.transform = `scale(${value / 100})`;
+        bgSizeValue.textContent = `${value}%`;
     });
 }); 
