@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
             case 'container':
                 component.className += ' container-component';
-                component.textContent = 'Konteiner';
+                component.innerHTML = component.content || 'Konteiner';
                 break;
             case 'card':
                 component.className += ' card';
@@ -84,17 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>Kaardi sisu</p>
                     <button class="button">Tegevus</button>
                 `;
-                break;
-            case 'progressbar':
-                component.className += ' progressbar';
-                const fill = document.createElement('div');
-                fill.className = 'progressbar-fill';
-                fill.style.width = '50%';
-                component.appendChild(fill);
-                break;
-            case 'divider':
-                component.className += ' divider';
-                component.setAttribute('contenteditable', 'false');
                 break;
         }
 
@@ -292,14 +281,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Lisa need mallid DOMContentLoaded sündmuse käsitleja sisse
 
     const templates = {
-        landing1: [
+        business: [
             {
                 type: 'heading',
-                text: 'Tere tulemast meie ettevõttesse',
+                text: 'Tere tulemast ettevõttesse',
                 styles: {
                     fontSize: '48px',
                     color: '#1a1a1a',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    marginBottom: '20px'
                 }
             },
             {
@@ -308,46 +298,89 @@ document.addEventListener('DOMContentLoaded', function() {
                 styles: {
                     fontSize: '24px',
                     color: '#666',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    marginBottom: '40px'
                 }
             },
             {
-                type: 'button',
-                text: 'Võta ühendust',
-                link: '#contact',
-                styles: {
-                    fontSize: '18px'
-                }
+                type: 'container',
+                content: `
+                    <h2 style="font-size: 32px; margin-bottom: 20px;">Meie teenused</h2>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                        <div class="card">
+                            <h3>Konsultatsioon</h3>
+                            <p>Professionaalne ärinõustamine</p>
+                            <button class="button">Loe rohkem</button>
+                        </div>
+                        <div class="card">
+                            <h3>Arendus</h3>
+                            <p>Kaasaegsed tehnilised lahendused</p>
+                            <button class="button">Loe rohkem</button>
+                        </div>
+                        <div class="card">
+                            <h3>Turundus</h3>
+                            <p>Tõhusad turundusstrateegiad</p>
+                            <button class="button">Loe rohkem</button>
+                        </div>
+                    </div>
+                `
             }
         ],
-        landing2: [
+        startup: [
             {
-                type: 'card',
+                type: 'container',
                 content: `
-                    <h3>Innovatiivne Lahendus</h3>
-                    <p>Meie startup muudab maailma</p>
-                    <button class="button">Liitu meiega</button>
+                    <div style="text-align: center; padding: 60px 0;">
+                        <h1 style="font-size: 56px; margin-bottom: 20px;">Innovatsioon algab siit</h1>
+                        <p style="font-size: 24px; color: #666; margin-bottom: 30px;">Muudame maailma tehnoloogia abil</p>
+                        <button class="button" style="font-size: 18px; padding: 12px 24px;">Liitu meiega</button>
+                    </div>
                 `
             },
             {
-                type: 'progressbar',
-                progress: 75,
-                type: 'progress'
+                type: 'container',
+                content: `
+                    <div style="background: #f8f9fa; padding: 40px; border-radius: 8px;">
+                        <h2 style="font-size: 36px; margin-bottom: 30px;">Meie toode</h2>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+                            <img src="https://via.placeholder.com/500x300" alt="Toode" style="width: 100%; border-radius: 8px;">
+                            <div>
+                                <h3 style="font-size: 24px; margin-bottom: 20px;">Revolutsiooniline lahendus</h3>
+                                <p style="font-size: 16px; line-height: 1.6;">Meie toode lahendab igapäevaseid probleeme uuenduslikul viisil.</p>
+                                <button class="button" style="margin-top: 20px;">Proovi tasuta</button>
+                            </div>
+                        </div>
+                    </div>
+                `
             }
         ],
         portfolio: [
             {
-                type: 'heading',
-                text: 'Minu Tööd',
-                styles: {
-                    fontSize: '36px',
-                    color: '#1a1a1a'
-                }
+                type: 'container',
+                content: `
+                    <div style="text-align: center; margin-bottom: 60px;">
+                        <h1 style="font-size: 48px; margin-bottom: 20px;">Jane Doe</h1>
+                        <p style="font-size: 24px; color: #666;">UX/UI Disainer & Arendaja</p>
+                    </div>
+                `
             },
             {
-                type: 'image',
-                src: 'https://via.placeholder.com/800x400',
-                alt: 'Portfolio pilt'
+                type: 'container',
+                content: `
+                    <h2 style="font-size: 36px; margin-bottom: 30px;">Minu tööd</h2>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;">
+                        <div class="card">
+                            <img src="https://via.placeholder.com/400x300" alt="Projekt 1" style="width: 100%; border-radius: 8px; margin-bottom: 20px;">
+                            <h3>E-poe disain</h3>
+                            <p>Kaasaegne e-poe lahendus</p>
+                        </div>
+                        <div class="card">
+                            <img src="https://via.placeholder.com/400x300" alt="Projekt 2" style="width: 100%; border-radius: 8px; margin-bottom: 20px;">
+                            <h3>Mobiilirakendus</h3>
+                            <p>Tervise jälgimise rakendus</p>
+                        </div>
+                    </div>
+                `
             }
         ]
     };
@@ -365,7 +398,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Lisa malli kasutamise funktsionaalsus
+    // Muuda malli kasutamise funktsionaalsust
     document.querySelectorAll('.use-template').forEach(button => {
         button.addEventListener('click', () => {
             const templateName = button.parentElement.dataset.template;
@@ -376,33 +409,98 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Lisa malli komponendid
             template.forEach(item => {
-                const component = createComponent(item.type);
-                
-                // Lisa stiilid ja sisu
+                const component = document.createElement('div');
+                component.className = `preview-component ${item.type}`;
+                component.setAttribute('draggable', 'true');
+
+                // Lisa kustutamise nupp
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'delete-button';
+                deleteButton.innerHTML = '<i class="bi bi-trash"></i>';
+                deleteButton.onclick = (e) => {
+                    e.stopPropagation();
+                    deleteComponent(component);
+                };
+
+                // Lisa sisu
+                if (item.content) {
+                    component.innerHTML = item.content;
+                } else if (item.text) {
+                    component.textContent = item.text;
+                }
+
+                // Lisa stiilid
                 if (item.styles) {
                     Object.assign(component.style, item.styles);
                 }
-                if (item.text) {
-                    component.textContent = item.text;
-                }
-                if (item.content) {
-                    component.innerHTML = item.content;
-                }
-                if (item.src) {
-                    component.querySelector('img').src = item.src;
-                }
-                if (item.alt) {
-                    component.querySelector('img').alt = item.alt;
-                }
-                if (item.progress) {
-                    component.querySelector('.progressbar-fill').style.width = `${item.progress}%`;
-                }
-                if (item.type === 'progressbar' && item.type) {
-                    updateProgressType(item.type);
-                }
+
+                // Lisa lohistamise funktsioonid
+                component.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', 'move');
+                    component.classList.add('dragging');
+                });
+
+                component.addEventListener('dragend', () => {
+                    component.classList.remove('dragging');
+                });
+
+                // Lisa kliki kuulaja omaduste muutmiseks
+                component.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectComponent(component);
+                });
+
+                // Lisa kustutamise nupp
+                component.appendChild(deleteButton);
                 
+                // Lisa komponent preview alasse
                 previewArea.appendChild(component);
+            });
+
+            // Lisa lohistamise funktsioonid preview alale
+            previewArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(previewArea, e.clientY);
+                const draggable = document.querySelector('.dragging');
+                if (draggable) {
+                    if (afterElement) {
+                        previewArea.insertBefore(draggable, afterElement);
+                    } else {
+                        previewArea.appendChild(draggable);
+                    }
+                }
             });
         });
     });
+
+    // Lisa abifunktsioon elementide järjestamiseks
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.preview-component:not(.dragging)')];
+
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    // Lisa CSS klass dragging elemendile
+    function addDraggingStyles() {
+        const style = document.createElement('style');
+        style.textContent = `
+            .preview-component.dragging {
+                opacity: 0.5;
+                border: 2px dashed var(--brand-color);
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Kutsu välja stiilide lisamine
+    addDraggingStyles();
 }); 

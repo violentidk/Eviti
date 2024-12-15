@@ -267,6 +267,13 @@
     font-size: 12px;
     color: var(--brand-color);
     pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.eviti-tag strong {
+    font-weight: 600;
 }
 
 /* Animatsioonid */
