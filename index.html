@@ -26,9 +26,28 @@
         
         <div class="main-content">
             <div class="toolbar">
-                <input type="color" id="bgColorPicker" value="#ffffff">
-                <input type="range" id="bgSizeSlider" min="50" max="200" value="100">
-                <span id="bgSizeValue">100%</span>
+                <div class="toolbar-group">
+                    <label for="bgSizeSlider">Suurus</label>
+                    <div class="slider-container">
+                        <input type="range" 
+                            id="bgSizeSlider" 
+                            min="50" 
+                            max="200" 
+                            step="10" 
+                            value="100"
+                            class="fluent-slider">
+                        <div class="slider-steps"></div>
+                        <span id="bgSizeValue">100%</span>
+                    </div>
+                </div>
+                <div class="toolbar-group">
+                    <label for="bgColorPicker">Taustavärv</label>
+                    <input type="color" id="bgColorPicker" value="#ffffff">
+                </div>
+                <button id="exportButton" class="button">
+                    <i class="bi bi-download"></i>
+                    Ekspordi HTML
+                </button>
             </div>
             <div id="preview-area" class="preview-area">
                 <!-- Siia tulevad lohistatud komponendid -->

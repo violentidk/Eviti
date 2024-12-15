@@ -225,5 +225,63 @@ document.addEventListener('DOMContentLoaded', function() {
         const value = e.target.value;
         previewArea.style.transform = `scale(${value / 100})`;
         bgSizeValue.textContent = `${value}%`;
+        
+        // Lisa visuaalne tagasiside
+        const thumb = e.target;
+        thumb.style.setProperty('--thumb-scale', '1.1');
+        setTimeout(() => {
+            thumb.style.setProperty('--thumb-scale', '1');
+        }, 200);
     });
+
+    // Ekspordi funktsioon
+    function exportHTML() {
+        const previewArea = document.getElementById('preview-area');
+        const components = Array.from(previewArea.children);
+        
+        let exportContent = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Eksporditud leht</title>
+    <style>
+        ${document.querySelector('style').textContent}
+    </style>
+</head>
+<body>
+    <div class="content">
+        ${components.map(comp => {
+            const clone = comp.cloneNode(true);
+            // Eemalda kustutamise nupud
+            const deleteBtn = clone.querySelector('.delete-button');
+            if (deleteBtn) deleteBtn.remove();
+            return clone.outerHTML;
+        }).join('\n')}
+    </div>
+</body>
+</html>`;
+
+        const blob = new Blob([exportContent], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'eksport.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // Lisa ekspordi nupu kuulaja
+    document.getElementById('exportButton').addEventListener('click', exportHTML);
+
+    // Komponendi kustutamise funktsioon
+    function deleteComponent(component) {
+        if (component === selectedComponent) {
+            selectedComponent = null;
+            propertiesPanel.innerHTML = '';
+        }
+        component.remove();
+    }
 }); 
