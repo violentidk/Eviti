@@ -321,4 +321,19 @@
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+/* Lisa need stiilid olemasolevate juurde */
+.component.dragging {
+    opacity: 0.5;
+    cursor: move;
+}
+
+.preview-area.drag-over {
+    background-color: rgba(0, 120, 212, 0.1);
+    border: 2px dashed var(--brand-color);
+}
+
+.preview-component {
+    cursor: move;
 } 

@@ -3,16 +3,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const previewArea = document.getElementById('preview-area');
     const propertiesPanel = document.getElementById('properties-content');
     let selectedComponent = null;
+    let draggedComponent = null;
 
     // Lohistamise funktsioonid
     components.forEach(component => {
         component.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', component.dataset.type);
+            draggedComponent = component;
+            component.classList.add('dragging');
+        });
+
+        component.addEventListener('dragend', () => {
+            component.classList.remove('dragging');
+            draggedComponent = null;
         });
     });
 
     previewArea.addEventListener('dragover', (e) => {
         e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+        const afterElement = getDragAfterElement(previewArea, e.clientY);
+        if (afterElement) {
+            previewArea.insertBefore(draggedComponent, afterElement);
+        } else {
+            previewArea.appendChild(draggedComponent);
+        }
     });
 
     previewArea.addEventListener('drop', (e) => {
@@ -20,6 +35,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const type = e.dataTransfer.getData('text/plain');
         addComponent(type, e.clientY);
     });
+
+    // Abifunktsioon lohistamise järjekorra määramiseks
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.preview-component:not(.dragging)')];
+
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
 
     // Komponendi lisamine
     function addComponent(type, yPosition) {
